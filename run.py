@@ -4,7 +4,6 @@ import gspread
 from google.oauth2.service_account import Credentials
 import colorama
 from colorama import Fore, Back, Style
-from datetime import datetime
 colorama.init(autoreset=True)
 
 SCOPE = [
@@ -21,25 +20,16 @@ SHEET = GSPREAD_CLIENT.open('farmer-market')
 
 def get_revenue_input():
     """
-    Function to have date and revenue value input from the user
+    Function to have revenue and month data inputted from the user
     """
     print(Fore.GREEN+'Please, use the following examples to enter revenue date:')
-    print(Fore.GREEN+'Please enter the "date" in the format "YYYY-MM-DD"')
+    print(Fore.GREEN+'Please enter the "month" in the format "january"')
     print(Fore.GREEN+'Please enter the "value" of daily revenue in the format "1.05"')
 
-    date_inf = input('Enter the date here:')
-    date_added = datetime.strptime(date_inf, '%Y-%m-%d').date()
-    worksheet_to_input = SHEET.worksheet('revenue')
+    month_inf = input('Enter the month here:').lower()      
+    revenue_data = float(input('Enter the revenue value here:'))     
 
-    revenue_data = input('Enter the revenue value here:')
-    revenue_value = float(revenue_data)
-
-    row_to_append = [str(date_added), revenue_value]
-    worksheet_to_input.append_row(row_to_append)
-
-    print(f'Date "{date_added}" and "{revenue_value}" added successfully')
-
-    return worksheet_to_input    
+    print(Fore.BLUE+f'Month and revenue provided were: "{month_inf}"; "{revenue_data}"')        
 
 
 get_revenue_input()    
