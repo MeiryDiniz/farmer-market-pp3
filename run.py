@@ -18,7 +18,7 @@ GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('farmer-market')
 
 
-def get_revenue_input():
+def get_revenue_worksheet_input():
     """
     Function to have revenue and month data inputted from the user
     """
@@ -26,10 +26,25 @@ def get_revenue_input():
     print(Fore.GREEN+'Please enter the "month" in the format "january"')
     print(Fore.GREEN+'Please enter the "value" of daily revenue in the format "1.05"')
 
-    month_inf = input('Enter the month here:').lower()      
-    revenue_data = float(input('Enter the revenue value here:'))     
+    month_inf = input('Enter the month here:').lower()
+    revenue_data = float(input('Enter the revenue value here:'))
+    validate_input_data(month_inf)
+    
 
-    print(Fore.BLUE+f'Month and revenue provided were: "{month_inf}"; "{revenue_data}"')        
+def validate_input_data(data):
+    """
+    Check the data inputted in the get_revenue_worksheet_input 
+    function and raises a ValueError if data does not match with
+    data asked 
+    """
+    try:
+        values = SHEET.worksheet('revenue').get_all_values()
+        if not any([data.lower() in col for col in zip(*values)]):
+            raise ValueError(
+                f'You provided "{data}", please provide a valid month')
+
+    except ValueError as e:
+        print(f'Invalid data: {e}, please try again.\n')
 
 
-get_revenue_input()    
+get_revenue_worksheet_input()
