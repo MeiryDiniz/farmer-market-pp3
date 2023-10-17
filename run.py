@@ -18,7 +18,7 @@ GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('farmer-market')
 
 
-def get_revenue_worksheet_input():
+def get_revenue_worksheet_data():
     """
     Function to have revenue and month data inputted from the user,
     and run a while loop to have a correct data inputted by the
@@ -48,7 +48,7 @@ Revenue: "{revenue_input}"!')
 
 def validate_month_input(data):
     """
-    Check the data inputted for month_input in the get_revenue_worksheet_input
+    Check the data inputted for month_input in the get_revenue_worksheet_data
     function and raises a ValueError if data does not match with data asked
     """
     try:
@@ -66,7 +66,7 @@ please provide a valid month')
 def validate_revenue_input(data):
     """
     Check the data inputted for revenue_input in the 
-    get_revenue_worksheet_input function, convert data 
+    get_revenue_worksheet_data function, convert data 
     to a float number and raises a ValueError if data does 
     not match with data asked
     """
@@ -82,4 +82,22 @@ revenue in the format "1.05" or "4" for whole numbers.\n')
     return True
 
 
-get_revenue_worksheet_input()
+def add_data_revenue_worksheet(data, value):
+    """
+    Function to add data to the revenue worksheet
+    """
+    print(Fore.CYAN+'The revenue worksheet is being updatted!')
+    revenue_worksheet_data = SHEET.worksheet('revenue')
+    months = revenue_worksheet_data.row_values(1)
+    month_index = months.index(data)
+    row_data = revenue_worksheet_data.col_values(month_index + 1)
+    last_row = len(row_data) + 1
+    revenue_worksheet_data.update_cell(last_row, month_index + 1, value)   
+   
+    print(Fore.MAGENTA+'Data was updated successfuly!')
+
+
+data = get_revenue_worksheet_data()
+month_input = data[0]
+revenue_input = data[1]
+add_data_revenue_worksheet(month_input, revenue_input)
