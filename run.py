@@ -45,13 +45,14 @@ format "1.05" or "4" for whole numbers.\n')
         if validate_value_input(revenue_input):
             break
     print(Fore.MAGENTA+f'Data inputted is valid: Month: \
-"{month_input_revenue}" and Revenue: "{revenue_input}"!')
+"{month_input_revenue}" and Revenue: "{revenue_input}"!\n')
 
 # Add data to 'expenses' worksheet
     while True:
         print('Please, use the following examples to enter expenses \
 date:\n')
-        print(Fore.BLUE+'Please enter the "month" in the format "january".\n')
+        print(Fore.BLUE+'Please enter the "month" in the format "january" \
+without quotes.\n')
 
         month_input_expense = input(
             Fore.GREEN+'Enter the month here:\n').lower()
@@ -60,13 +61,13 @@ date:\n')
 
     while True:
         print(Fore.BLUE+'Please enter the "value" of daily expenses in the \
-format "1.05" or "4" for whole numbers.\n')
+format "1.05" or "4" for whole numbers, without quotes.\n')
 
         expense_input = (input(Fore.GREEN+'Enter the expense value here:\n'))
         if validate_value_input(expense_input):
             break
     print(Fore.MAGENTA+f'Data inputted is valid: Month: \
-"{month_input_expense}" and Expense: "{expense_input}"!')
+"{month_input_expense}" and Expense: "{expense_input}"!\n')
     return month_input_revenue, revenue_input, month_input_expense, expense_input
 
 
@@ -100,7 +101,7 @@ def validate_value_input(data):
             raise ValueError
     except ValueError as e:
         print(Fore.RED+f'Invalid data: {e}Please enter the "value" of daily \
-revenue in the format "1.05" or "4" for whole numbers.\n')
+revenue in the format "1.05" or "4" for whole numbers, without quotes.\n')
         return False
 
     return True
@@ -111,7 +112,7 @@ def add_worksheet_data(data, worksheet):
     Function to add data to the correct worksheet
     according to the data inputted.
     """
-    print(f'{Fore.CYAN}The {worksheet} are being updated!')
+    print(f'{Fore.CYAN}The {worksheet} are being updated!\n')
     worksheet_data = SHEET.worksheet(worksheet)
     months = worksheet_data.row_values(1)
     month_index = months.index(data[0]) + 1
@@ -119,40 +120,36 @@ def add_worksheet_data(data, worksheet):
     last_row = len(row_data) + 1
     worksheet_data.update_cell(last_row, month_index, data[1])
 
-    print(Fore.MAGENTA+'Data was updated successfuly!')
+    print(f'{Fore.MAGENTA}The {worksheet} data was updated successfuly!\n')
 
 
 def worksheet_sum(worksheet):
     """
     Function to sum the values inputted in the worksheets.
     """
-    worksheet_sum_revenue = SHEET.worksheet(worksheet)
-    months = worksheet_sum_revenue.row_values(1)
+    worksheet = SHEET.worksheet(worksheet)
+    months = worksheet.row_values(1)
 
     sum_values = []
     for month_index in range(1, len(months) + 1):
-        column_data = worksheet_sum_revenue.col_values(month_index)[1:]  # Exclude the header row
+        column_data = worksheet.col_values(month_index)[1:]  
         numeric_values = [float(value) if value != '' else 0 for value in column_data]
         column_sum = sum(numeric_values)
         sum_values.append(column_sum)
 
-    return sum_values
+    return sum_values 
 
 
-def add_profit_data(data, worksheet):
-    """
-    Function to add data to the profit worksheet.
-    """
-    print(f'{Fore.CYAN}The {worksheet} is being updated!')
+def profit_worksheet_data(data, worksheet):
+    print(Fore.GREEN+'Updating profit data...\n')
     profit_worksheet = SHEET.worksheet(worksheet)
-    months = profit_worksheet.col_values(1)
-    month_index = months.index(data[0]) + 1
-    col_data = profit_worksheet.row_values(month_index)
-    last_col = len(col_data) + 1
-    profit_worksheet.update_cell(month_index, last_col, data[1])
-
-    print(Fore.MAGENTA+'Data was updated successfuly!')    
-
+    existing_data = profit_worksheet.get_all_values()
+    for i, value in enumerate(data, start=1):
+        profit_worksheet.update_cell(i + 1, 4, value)
+    print(Fore.CYAN+'Profit data has been calculated successfully!\n')    
+    # months = profit_worksheet.col_values(1) 
+    # worksheet_data = data.col_values()
+    # profit_worksheet.append(worksheet_data[1:]) 
 
 def main():
     """
@@ -165,25 +162,30 @@ def main():
     expense_input = data[3]
     add_worksheet_data((month_input_revenue, revenue_input), 'revenue')
     add_worksheet_data((month_input_expense, expense_input), 'expenses')
+#  worksheet_sum(worksheet) function   
+    print(Fore.GREEN+'Calculating revenue data...\n')
+    worksheet = "revenue"  
+    sums = worksheet_sum(worksheet)
+    print(Fore.CYAN+'Revenue data was calculated!\n')
+    print(Fore.GREEN+'Calculating expenses data...\n')
+    worksheet = "expenses"  
+    sums = worksheet_sum(worksheet)
+    print(Fore.CYAN+'Expense data was calculated!\n')
 
-    worksheet_sum_revenue = SHEET.worksheet('revenue')
-    months = worksheet_sum_revenue.row_values(1)
-    revenue_sums = worksheet_sum('revenue')
-    print("Sum values for each column in the 'revenue' worksheet:")
-    for month, sum_value in zip(months, revenue_sums):
-        sum_revenue_formatted = round(sum_value, 2)
-        print(f"{month}: {sum_revenue_formatted}")
+    # print(Fore.GREEN+'Updating profit data...\n')
+    revenue_sums = worksheet_sum("revenue")
+    expenses_sums = worksheet_sum("expenses")
+    profit_sum = [revenue_sums[i] - expenses_sums[i] for i in range(len(revenue_sums))]
+    profit_worksheet_data(profit_sum, "profit")
 
-    worksheet_data_expense = SHEET.worksheet('expenses')
-    expense_months = worksheet_data_expense.row_values(1)  
-    expense_sums = worksheet_sum('expenses')
-    print("Sum values for each column in the 'expenses' worksheet:")
-    for month, sum_value in zip(expense_months, expense_sums):
-        sum_expense_formatted = round(sum_value, 2)
-        print(f"{month}: {sum_expense_formatted}") 
-
-    add_profit_data(sum_revenue_formatted, 'profit')    
-    add_profit_data(sum_expense_formatted, 'profit')
+    # revenue_sums = worksheet_sum("revenue")
+    # expenses_sums = worksheet_sum("expenses")
+    # profit_sum = [revenue_sums[i] - expenses_sums[i] for i in range(len(revenue_sums))]
+    # profit_worksheet_data(profit_sum, "profit")
+    # revenue_sums = worksheet_sum("revenue")
+    # expenses_sums = worksheet_sum("expenses")
+    # profit_worksheet_data(revenue_sums,'profit')
+    # profit_worksheet_data(expenses_sums,'profit')
 
 
 print(Back.BLACK + Fore.MAGENTA + '\033[1m'+"Welcome to Farmer Market \
