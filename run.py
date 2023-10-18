@@ -122,27 +122,19 @@ def add_worksheet_data(data, worksheet):
     print(Fore.MAGENTA+'Data was updated successfuly!')
 
 
-# data_revenue_worksheet = get_worksheet_data()
-# month_input_revenue = data_revenue_worksheet[0]
-# revenue_input = data_revenue_worksheet[1]
-# data_worksheet_expenses = get_worksheet_data()
-# month_input_expense = data_worksheet_expenses[0]
-# expense_input = data_worksheet_expenses[1]
-data = get_worksheet_data()
-month_input_revenue = data[0]
-revenue_input = data[1]
-month_input_expense = data[2]
-expense_input = data[3]
-add_worksheet_data((month_input_revenue, revenue_input), 'revenue')
-add_worksheet_data((month_input_expense, expense_input), 'expenses')
+def main():
+    """
+    Run all program functions.
+    """
+    data = get_worksheet_data()
+    month_input_revenue = data[0]
+    revenue_input = data[1]
+    month_input_expense = data[2]
+    expense_input = data[3]
+    add_worksheet_data((month_input_revenue, revenue_input), 'revenue')
+    add_worksheet_data((month_input_expense, expense_input), 'expenses')
 
-# def main():
-#     """
-#     Run all program functions.
-#     """
-
-
-# print(Back.MAGENTA + Fore.BLACK + 'Welcome to Farmer Market Automation! \
-# The program will help you to deal with expenses and revenue data, \
-# and so, calculating the profit of your farmer market.')
-# main()
+print(Back.BLACK + Fore.MAGENTA +'\033[1m'+"Welcome to Farmer Market Automation!\
+The program will help you to deal with expenses and revenue data, and so,\
+calculating the profit of your farmer market.'\033[0m'\n")
+main()
