@@ -1,5 +1,4 @@
 import pandas as pd
-from pprint import pprint
 import gspread
 from google.oauth2.service_account import Credentials
 import colorama
@@ -79,8 +78,8 @@ def validate_month_input(data):
     does not match with data asked.
     """
     try:
-        worksheet_data = SHEET.worksheet('revenue').get_all_values()
-        if not any([data.lower() in col for col in zip(*worksheet_data)]):
+        worksheet_data = SHEET.worksheet('revenue').row_values(1)
+        if data.lower() not in [value.lower() for value in worksheet_data]:
             raise ValueError(Fore.RED+f'You provided "{data}", \
 please provide a valid month')
     except ValueError as e:
@@ -130,40 +129,80 @@ def worksheet_sum(worksheet):
     """
     print(f'{Fore.GREEN}Calculating {worksheet}...\n')
     worksheet = SHEET.worksheet(worksheet)
-    months = worksheet.row_values(1)   
+    months = worksheet.row_values(1)
 
     sum_values = []
     for month_index in range(1, len(months) + 1):
-        column_data = worksheet.col_values(month_index)[1:]  
-        numeric_values = [float(value) if value != '' else 0 for value in column_data]
+        column_data = worksheet.col_values(month_index)[1:]
+        numeric_values = [float(value) if value !=
+                          '' else 0 for value in column_data]
         column_sum = sum(numeric_values)
         sum_values.append(column_sum)
 
     print(f'{Fore.CYAN}The {worksheet.title} data has being calculated \
-successfuly!\n')        
+successfuly!\n')
 
-    return sum_values 
-    
+    return sum_values
+
 
 def append_worksheet_data(worksheet, values, column):
     """
     Function to append revenue and expenses sum to the 
     profit worksheet.
     """
-    sum_worksheet_data = SHEET.worksheet(worksheet)    
+    sum_worksheet_data = SHEET.worksheet(worksheet)
     for i, value in enumerate(values):
         sum_worksheet_data.update_cell(i + 2, column, value)
 
-# def profit_worksheet_data(data, worksheet):
-#     print(Fore.GREEN+'Updating profit data...\n')
-#     profit_worksheet = SHEET.worksheet(worksheet)
-#     existing_data = profit_worksheet.get_all_values()
-#     for i, value in enumerate(data, start=1):
-#         profit_worksheet.update_cell(i + 1, 4, value)
-#     print(Fore.CYAN+'Profit data has been calculated successfully!\n')    
-    # months = profit_worksheet.col_values(1) 
-    # worksheet_data = data.col_values()
-    # profit_worksheet.append(worksheet_data[1:]) 
+
+def calculate_profit(column2_index, column3_index, column4):
+    """
+    Function to have profit value calculated.
+    """
+    print(Fore.GREEN+'Calculating profit data...\n')
+    column2_values = SHEET.worksheet('profit').col_values(column2_index)[1:]
+    column3_values = SHEET.worksheet('profit').col_values(column3_index)[1:]
+    column2_values = [float(value) if value !=
+                      '' else 0 for value in column2_values]
+    column3_values = [float(value) if value !=
+                      '' else 0 for value in column3_values]
+
+    profit_result = [column2 - column3 for column2,
+                     column3 in zip(column2_values, column3_values)]
+    sum_worksheet_data = SHEET.worksheet('profit')
+    for i, result in enumerate(profit_result):
+        sum_worksheet_data.update_cell(i + 2, column4, result)
+
+    print(Fore.MAGENTA + 'Profit data has being calculated!\n')
+    print(Fore.GREEN + 'Loading data to be printed......')
+
+
+def sum_columns(column_numbers):
+    """
+    Function to sum values of profit worksheet columns, 
+    to show the total revenu, expenses and profit by month
+    and year.
+    """
+    profit_worksheet_data = SHEET.worksheet('profit')
+    sum_values = []
+    for column_number in column_numbers:
+        column = profit_worksheet_data.col_values(column_number)[1:]
+        sum_value = sum(float(value) for value in column if value)
+        sum_values.append(sum_value)
+
+    last_row_index = len(column) + 1
+    for i, sum_value in enumerate(sum_values):
+        profit_worksheet_data.update_cell(last_row_index, column_numbers[i], str(sum_value))
+    
+
+def print_profit_data():
+    """
+    Function to print the profit worksheet data using pandas.
+    """
+    profit_data = SHEET.worksheet('profit').get_all_values()
+    df_profit = pd.DataFrame(profit_data[1:], columns=profit_data[0])
+    print(df_profit.to_string(index=False))
+
 
 def main():
     """
@@ -177,31 +216,17 @@ def main():
     add_worksheet_data((month_input_revenue, revenue_input), 'revenue')
     add_worksheet_data((month_input_expense, expense_input), 'expenses')
 
-#  worksheet_sum(worksheet) function and 
-# append_worksheet_data(worksheet, values, column) function      
     revenue_worksheet = "revenue"
     revenue_sums = worksheet_sum(revenue_worksheet)
     append_worksheet_data("profit", revenue_sums, 2)
-    
-    expenses_worksheet = "expenses"  
+    expenses_worksheet = "expenses"
     expenses_sums = worksheet_sum(expenses_worksheet)
     append_worksheet_data("profit", expenses_sums, 3)
-    
 
-    # print(Fore.GREEN+'Updating profit data...\n')
-    # revenue_sums = worksheet_sum("revenue")
-    # expenses_sums = worksheet_sum("expenses")
-    # profit_sum = [revenue_sums[i] - expenses_sums[i] for i in range(len(revenue_sums))]
-    # profit_worksheet_data(profit_sum, "profit")
-
-    # revenue_sums = worksheet_sum("revenue")
-    # expenses_sums = worksheet_sum("expenses")
-    # profit_sum = [revenue_sums[i] - expenses_sums[i] for i in range(len(revenue_sums))]
-    # profit_worksheet_data(profit_sum, "profit")
-    # revenue_sums = worksheet_sum("revenue")
-    # expenses_sums = worksheet_sum("expenses")
-    # profit_worksheet_data(revenue_sums,'profit')
-    # profit_worksheet_data(expenses_sums,'profit')
+    calculate_profit(2, 3, 4)
+    columns = [2, 3, 4]
+    sum_columns(columns)    
+    print_profit_data()
 
 
 print(Back.BLACK + Fore.MAGENTA + '\033[1mWelcome to Farmer Market \
