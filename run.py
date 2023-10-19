@@ -28,8 +28,8 @@ def get_worksheet_data():
 
 # Add data to 'revenue' worksheet
     while True:
-        print(Back.BLACK + 'Please, use the following examples to enter \
-    revenue date:\n')
+        print('\033[1mPlease, use the following examples to enter \
+revenue date:\033[0m\n')
         print(Fore.BLUE+'Please enter the "month" in the format "january".\n')
 
         month_input_revenue = input(
@@ -49,8 +49,8 @@ format "1.05" or "4" for whole numbers.\n')
 
 # Add data to 'expenses' worksheet
     while True:
-        print(Back.BLACK + 'Please, use the following examples to enter \
-expenses date:\n')
+        print('\033[1mPlease, use the following examples to enter \
+expenses date:\033[0m\n')
         print(Fore.BLUE+'Please enter the "month" in the format "january" \
 without quotes.\n')
 
@@ -121,7 +121,7 @@ def add_worksheet_data(data, worksheet):
     last_row = len(row_data) + 1
     worksheet_data.update_cell(last_row, month_index, data[1])
 
-    print(f'{Fore.MAGENTA}The {worksheet} data was updated successfuly!\n')
+    print(f'{Fore.MAGENTA}The {worksheet} has being updated successfuly!\n')
 
 
 def worksheet_sum(worksheet):
@@ -139,7 +139,7 @@ def worksheet_sum(worksheet):
         column_sum = sum(numeric_values)
         sum_values.append(column_sum)
 
-    print(f'{Fore.CYAN}The {worksheet.title} data was calculated \
+    print(f'{Fore.CYAN}The {worksheet.title} data has being calculated \
 successfuly!\n')        
 
     return sum_values 
@@ -204,9 +204,9 @@ def main():
     # profit_worksheet_data(expenses_sums,'profit')
 
 
-print(Back.BLACK + Fore.MAGENTA + '\033[1m'+"Welcome to Farmer Market \
-Automation!'\033[0m'\n")
-print(Back.BLACK + Fore.MAGENTA + '\033[1m'+"The program will help you to \
+print(Back.BLACK + Fore.MAGENTA + '\033[1mWelcome to Farmer Market \
+Automation!\033[0m\n')
+print(Back.BLACK + Fore.MAGENTA + '\033[1mThe program will help you to \
 deal with expenses and revenue data, and so, calculating the profit of your \
-farmer market.'\033[0m'\n")
+farmer market.\033[0m\n')
 main()
