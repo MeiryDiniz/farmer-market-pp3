@@ -1,9 +1,10 @@
-import pandas as pd
 import gspread
 from google.oauth2.service_account import Credentials
+from tabulate import tabulate
 import colorama
 from colorama import Fore, Back, Style
 colorama.init(autoreset=True)
+
 
 SCOPE = [
     "https://www.googleapis.com/auth/spreadsheets",
@@ -177,31 +178,33 @@ def calculate_profit(column2_index, column3_index, column4):
     print(Fore.GREEN + 'Loading data to be printed......')
 
 
-def sum_columns(column_numbers):
+def sum_columns_profit(worksheet, column_range, total_cell):
     """
     Function to sum values of profit worksheet columns, 
     to show the total revenu, expenses and profit by month
     and year.
     """
-    profit_worksheet_data = SHEET.worksheet('profit')
-    sum_values = []
-    for column_number in column_numbers:
-        column = profit_worksheet_data.col_values(column_number)[1:]
-        sum_value = sum(float(value) for value in column if value)
-        sum_values.append(sum_value)
+    profit_worksheet = SHEET.worksheet(worksheet)
+    values = profit_worksheet.get(column_range)
+    total = sum([float(value[0]) for value in values])
+    profit_worksheet.update(total_cell, total)
 
-    last_row_index = len(column) + 1
-    for i, sum_value in enumerate(sum_values):
-        profit_worksheet_data.update_cell(last_row_index, column_numbers[i], str(sum_value))
-    
 
 def print_profit_data():
     """
     Function to print the profit worksheet data using pandas.
     """
-    profit_data = SHEET.worksheet('profit').get_all_values()
-    df_profit = pd.DataFrame(profit_data[1:], columns=profit_data[0])
-    print(df_profit.to_string(index=False))
+    print(Back.BLACK + '\033[1mYour Data is ready to be analysed.\033[0m\n')
+    worksheet = SHEET.worksheet('profit')
+    data = worksheet.get_all_values()    
+    headers = data[0]
+    table_data = data[1:]
+    column_colors = [Fore.RESET, Fore.MAGENTA, Fore.GREEN, Fore.RED, Fore.BLUE]
+    styled_headers = [f"{column_colors[i + 1]}{header}{Style.RESET_ALL}" for i, header in enumerate(headers)]
+    styled_table_data = [[f"{column_colors[j + 1]}{cell}{Style.RESET_ALL}" for j, cell in enumerate(row)] for row in table_data]    
+    table = [styled_headers] + styled_table_data   
+    print(tabulate(table, headers='firstrow', tablefmt='grid'))   
+    print(Back.BLACK + Fore.MAGENTA + '\033[1mThank you for using Farmer Market Automation!\033[0m')    
 
 
 def main():
@@ -222,10 +225,10 @@ def main():
     expenses_worksheet = "expenses"
     expenses_sums = worksheet_sum(expenses_worksheet)
     append_worksheet_data("profit", expenses_sums, 3)
-
-    calculate_profit(2, 3, 4)
-    columns = [2, 3, 4]
-    sum_columns(columns)    
+    calculate_profit(2, 3, 4)    
+    sum_columns_profit('profit', 'B2:B13', 'B14') 
+    sum_columns_profit('profit', 'C2:C13', 'C14')
+    sum_columns_profit('profit', 'D2:D13', 'D14')
     print_profit_data()
 
 
