@@ -204,7 +204,11 @@ def print_profit_data():
     styled_table_data = [[f"{column_colors[j + 1]}{cell}{Style.RESET_ALL}" for j, cell in enumerate(row)] for row in table_data]    
     table = [styled_headers] + styled_table_data   
     print(tabulate(table, headers='firstrow', tablefmt='grid'))   
-    print(Back.BLACK + Fore.MAGENTA + '\033[1mThank you for using Farmer Market Automation!\033[0m')    
+    print(Back.BLACK + Fore.MAGENTA + '\033[1mThank you for using Farmer \
+Market Automation!\033[0m\n') 
+    print(Back.BLACK + Fore.CYAN + '\033[1mProgram Automation created by \
+Meiry Fernanda Diniz for the PP3 of Full Stack Software Development course at \
+Code Institute.\033[0m\n')   
 
 
 def main():
