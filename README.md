@@ -1,32 +1,75 @@
-![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
+# Farmer Market
 
-Welcome,
+I live in a town where there are some farmer markets. Thinking of something to automate he way they control and check their business revenue, expenses and profits, I created **Farmer Market**.
+**Farmer Market** is an automation program that you can enter the revenue and expenses of your business, and the program will calculate the profit. 
+Although it was created to be a farmer market automation, this program can be used by other types of businesses, or even to control our finances.   
 
-This is the Code Institute student template for deploying your third portfolio project, the Python command-line project. The last update to this file was: **March 14, 2023**
+![Farmer Market Automation]()
 
-## Reminders
+Visit the live version of the program automation: [Farmer Market Automation]()
 
-- Your code must be placed in the `run.py` file
-- Your dependencies must be placed in the `requirements.txt` file
-- Do not edit any of the other files or your code may not deploy properly
+- - -
 
-## Creating the Heroku app
+## CONTENTS
+  
+* [AUTOMATED TESTING](#automated-testing)
+  * [PEP8 Python Validator](#pep8-python-validator)  
+* [MANUAL TESTING](#manual-testing)
+   * [Test done by Developer](#test-done-by-developer)
+* [BUGS](#bugs)
+   * [Fixed bugs](#fixed-bugs)   
+   * [Unfixed bugs](#unfixed-bugs)
+* [DEPLOYMENT](#deployment) 
+* [RESOURCE](#resource)
+* [IMPROVEMENT](#improvement)  
+* [CONTENT](#content)
+* [CREDITS](#credits)  
 
-When you create the app, you will need to add two buildpacks from the _Settings_ tab. The ordering is as follows:
+- - -
 
-1. `heroku/python`
-2. `heroku/nodejs`
+## AUTOMATED TESTING
 
-You must then create a _Config Var_ called `PORT`. Set this to `8000`
+###  PEP8 Python Validator
 
-If you have credentials, such as in the Love Sandwiches project, you must create another _Config Var_ called `CREDS` and paste the JSON into the value field.
+ * [PEP8 Python Validator](https://pep8ci.herokuapp.com/) was used to validate the code.
 
-Connect your GitHub repository and deploy as normal.
+ [PEP8 Python Validator Result]() 
 
-## Constraints
+- - -
 
-The deployment terminal is set to 80 columns by 24 rows. That means that each line of text needs to be 80 characters or less otherwise it will be wrapped onto a second line.
+## MANUAL TESTING
 
----
+### Test done by developer
 
-Happy coding!
+`Data Inputted`
+
+| Feature | Expected Outcome | Testing Performed | Result | Passed/Failed | Image
+| --- | --- | --- | --- | --- | --- |
+| `while loop` in `get_worksheet_data()` function | Keep the code running until all required data is inputted correctly. | Data was inputted to have the function feature tested. | The code in the function ran until the required data was inputted correctly. | Passed | () |
+| `try` and `except` block in `validate_month_input(data)` and `validate_value_input(data)` function | Have the data inputted by the user validated and keep the program running even if ivalid data is inputted. | Invalid and valid data were inputted to check if the code was working as expected.| When an invalid data was inputted the code returned a message to the user informing what happend and what should bedone. The code kept running normally. | Passed | () |
+
+`Worksheet data, sum, and data updated on worksheets`
+
+| Feature | Expected Outcome | Testing Performed | Result | Passed/Failed | Image
+| --- | --- | --- | --- | --- | --- |
+| `add_worksheet_data(data, worksheet)` | Function to have the data inputted by the user entered to the correctly worksheet after it is validated. | The worksheet was checked after the code finished running to check if values were entered correctly. | Data was entered to the correctly workshhet. | Passed | () |
+|`worksheet_sum(worksheet)` and `sum_columns_profit(worksheet, column_range, total_cell)` | Function to have data inputted summed. | Data was inputted to have values summed and printed on the console to have the function feature tested. | The values printed were correctly. | Passed | () |
+| `append_worksheet_data(worksheet, values, column)` | Function to have data entered to the correctly worksheet after it is summed. | Data was inputted and the worksheet was checked after the code finished running. | Data was entered to the correctly worksheet. | Passed | () |
+
+`Profit Worksheet updated and printed`
+
+| Feature | Expected Outcome | Testing Performed | Result | Passed/Failed | Image
+| --- | --- | --- | --- | --- | --- |
+| `calculate_profit(column2_index, column3_index, column4)` | Function to have profit calculated after data is entered to the profit worksheet and each time it is updated. | Data was inputted and profit worksheet was checked after the code finished running. | Data was calculated correctly. | Passed | () |
+|`sum_columns_profit(worksheet, column_range, total_cell)` | Function to have anual data calculated. | Data was inputted to have values entered to the worksheets and have the function feature tested. | The values calculated were correctly. | Passed | () |
+| `print_profit_data()` | Function to have data printed to the console after data inputted is calculated. | Data was inputted and values in worksheet were checked to be sure they match to the values printed. | Data printed matched correctly to the data in worksheet. | Passed | () |
+
+- - -
+
+## BUGS
+
+### Fixed bugs
+
+| Bug | Reason | Action |
+| --- | --- | --- |
+|  |  |  |
