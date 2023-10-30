@@ -33,7 +33,7 @@ revenue date:\033[0m\n')
         print(Fore.BLUE+'Please enter the "month" in the format "january".\n')
 
         month_input_revenue = input(
-            Fore.GREEN+'Enter the month here:').lower()
+            Fore.GREEN+'Enter the month here:\n').lower()
         if validate_month_input(month_input_revenue):
             break
 
@@ -41,7 +41,7 @@ revenue date:\033[0m\n')
         print(Fore.BLUE+'Please enter the "value" of daily revenue in the \
 format "1.05" or "4" for whole numbers.\n')
 
-        revenue_input = (input(Fore.GREEN+'Enter the revenue value here:'))
+        revenue_input = (input(Fore.GREEN+'Enter the revenue value here:\n'))
         if validate_value_input(revenue_input):
             break
     print(Fore.MAGENTA+f'Data inputted is valid: Month: \
@@ -55,7 +55,7 @@ expenses date:\033[0m\n')
 without quotes.\n')
 
         month_input_expense = input(
-            Fore.GREEN+'Enter the month here:').lower()
+            Fore.GREEN+'Enter the month here:\n').lower()
         if validate_month_input(month_input_expense):
             break
 
@@ -63,7 +63,7 @@ without quotes.\n')
         print(Fore.BLUE+'Please enter the "value" of daily expenses in the \
 format "1.05" or "4" for whole numbers, without quotes.\n')
 
-        expense_input = (input(Fore.GREEN+'Enter the expense value here:'))
+        expense_input = (input(Fore.GREEN+'Enter the expense value here:\n'))
         if validate_value_input(expense_input):
             break
     print(Fore.MAGENTA+f'Data inputted is valid: Month: \
