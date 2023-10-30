@@ -192,7 +192,7 @@ def sum_columns_profit(worksheet, column_range, total_cell):
 
 def print_profit_data():
     """
-    Function to print the profit worksheet data using pandas.
+    Function to print the profit worksheet.
     """
     print(Back.BLACK + '\033[1mYour Data is ready to be analysed.\033[0m\n')
     worksheet = SHEET.worksheet('profit')
@@ -210,8 +210,8 @@ def print_profit_data():
     print(Back.BLACK + Fore.MAGENTA + '\033[1mThank you for using Farmer \
 Market Automation!\033[0m\n')
     print(Back.BLACK + Fore.CYAN + '\033[1mProgram Automation created by \
-Meiry Fernanda Diniz for the PP3 of Full Stack Software Development course at \
-Code Institute.\033[0m\n')
+Meiry Fernanda Diniz for the PP3 of Full Stack \
+Software Development course at Code Institute.\033[0m\n')
 
 
 def main():
@@ -241,6 +241,6 @@ def main():
 print(Back.BLACK + Fore.MAGENTA + '\033[1mWelcome to Farmer Market \
 Automation!\033[0m\n')
 print(Back.BLACK + Fore.MAGENTA + '\033[1mThe program will help you to \
-deal with expenses and revenue data, and so, calculating the profit of your \
-farmer market.\033[0m\n')
+deal with expenses and revenue data, and so, \
+calculating the profit of your farmer market.\033[0m\n')
 main()

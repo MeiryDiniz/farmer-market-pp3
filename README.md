@@ -5,9 +5,9 @@ I live in a town where there are some farmer markets. Thinking of something to a
 **Farmer Market** is an automation program that you can enter the revenue and expenses of your business, and the program will calculate the profit. 
 Although it was created to be a farmer market automation, this program can be used by other types of businesses, or even to control our finances.   
 
-![Farmer Market Automation]()
+![Farmer Market Automation](https://github.com/MeiryDiniz/farmer-market-pp3/blob/main/assets/images/readme-md/program-image.webp)
 
-Visit the live version of the program automation: [Farmer Market Automation]()
+Visit the live version of the program automation: [Farmer Market Automation](https://farmer-market-automation-b5a2ae2bd35e.herokuapp.com/)
 
 - - -
 
@@ -43,14 +43,14 @@ Visit the live version of the program automation: [Farmer Market Automation]()
 
 ### Test done by developer
 
-`Data Inputted`
+`Data inputted by the user`
 
 | Feature | Expected Outcome | Testing Performed | Result | Passed/Failed | Image
 | --- | --- | --- | --- | --- | --- |
 | ``while loop`` in ``get_worksheet_data()`` function | Keep the code running until all required data is inputted correctly. | Data was inputted to have the function feature tested. | The code in the function ran until the required data was inputted correctly. | Passed | (https://github.com/MeiryDiniz/farmer-market-pp3/blob/main/assets/images/readme-md/Screenshot-2023-10-17-014525.webp) |
 | ``try`` and ``except`` block in ``validate_month_input(data)`` and ``validate_value_input(data)`` function | Have the data inputted by the user validated and keep the program running even if invalid data is inputted. | Invalid and valid data were inputted to check if the code was working as expected.| When an invalid data was inputted the code returned a message to the user informing what happend and what should be done. The code kept running normally. | Passed | (https://github.com/MeiryDiniz/farmer-market-pp3/blob/main/assets/images/readme-md/Screenshot-2023-10-17-120640.webp) |
 
-`Worksheet data, sum, and data updated on worksheets`
+`Have data updated on worksheets`
 
 | Feature | Expected Outcome | Testing Performed | Result | Passed/Failed | Image
 | --- | --- | --- | --- | --- | --- |
@@ -58,7 +58,7 @@ Visit the live version of the program automation: [Farmer Market Automation]()
 |``worksheet_sum(worksheet)`` | Function to have data inputted summed. | Data was inputted to have values summed and printed on the console to have the function feature tested. | The values printed were correctly. | Passed | (https://github.com/MeiryDiniz/farmer-market-pp3/blob/main/assets/images/readme-md/Screenshot-2023-10-18-173902.webp) |
 | ``append_worksheet_data(worksheet, values, column)`` | Function to have data entered to the correctly worksheet after it is summed. | Data was inputted and the worksheet was checked after the code finished running. | Data was entered to the correctly worksheet. | Passed | (https://github.com/MeiryDiniz/farmer-market-pp3/blob/main/assets/images/readme-md/worksheet-test-1.webp) |
 
-`Profit Worksheet updated and printed`
+`Profit worksheet data`
 
 | Feature | Expected Outcome | Testing Performed | Result | Passed/Failed | Image
 | --- | --- | --- | --- | --- | --- |
@@ -78,7 +78,11 @@ Visit the live version of the program automation: [Farmer Market Automation]()
 | I had a considerable number of problems with the result of functions in my code and also, how them were running. | It happened because I was not using the correct indentation and sequence to write the functions. | I revised the course content, did research on google and kept trying until I got the result that I needed. |
 
 ### Unfixed bugs
-I have tested the program and did not find any other bug.
+I have the following user warning in the program, before the profit table is printed:
+``/home/codeany/.local/lib/python3.8/site-packages/gspread/worksheet.py:1069: UserWarning: [Deprecated][in version 6.0.0]: method signature will change to: 'Worksheet.update(value = [[]], range_name=)' arguments 'range_name' and 'values' will swap, values will be mandatory of type: 'list(list(...))'
+warnings.warn(``
+I did not change the code as I understood that this warning is regarding to something that will be updated and the program is working as I expect. 
+I will do research regarding to this warning and will update the code.
 
 - - -
 
