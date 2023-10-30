@@ -22,10 +22,11 @@ Visit the live version of the program automation: [Farmer Market Automation](htt
    * [Unfixed bugs](#unfixed-bugs)
 * [DEPLOYMENT](#deployment) 
 * [RESOURCE](#resource)
-* [IMPROVEMENT](#improvement)  
+* [IMPROVEMENT](#improvement) 
+* [MEDIA](#media) 
 * [CONTENT](#content)
 * [CREDITS](#credits)  
-* [MEDIA]
+
 
 - - -
 
