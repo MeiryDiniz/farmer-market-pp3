@@ -21,8 +21,8 @@ SHEET = GSPREAD_CLIENT.open('farmer-market')
 def get_worksheet_data():
     """
     Function to have revenue and expense data inputted from the user.
-    A while loop runs to keep program running while correct data is not 
-    inputted by the user. Data inputted is passed to the 
+    A while loop runs to keep program running while correct data is not
+    inputted by the user. Data inputted is passed to the
     validate_month_input(data) function to be validated.
     """
 
@@ -69,13 +69,14 @@ format "1.05" or "4" for whole numbers, without quotes.\n')
     print(Fore.MAGENTA+f'Data inputted is valid: Month: \
 "{month_input_expense}" and Expense: "{expense_input}"!\n')
 
-    return month_input_revenue, revenue_input, month_input_expense, expense_input
+    return month_input_revenue, revenue_input, month_input_expense, (
+        expense_input)
 
 
 def validate_month_input(data):
     """
     Check data inputted for month_input_revenue and  month_input_expense
-    in the get_worksheet_data function, and raises a ValueError if data 
+    in the get_worksheet_data function, and raises a ValueError if data
     does not match with data asked.
     """
     try:
@@ -93,7 +94,7 @@ please provide a valid month')
 def validate_value_input(data):
     """
     Check data inputted for revenue_input and expense_input in the
-    get_worksheet_data function, convert data to a float number and 
+    get_worksheet_data function, convert data to a float number and
     raises a ValueError if data does not match with data asked.
     """
     try:
@@ -148,7 +149,7 @@ successfuly!\n')
 
 def append_worksheet_data(worksheet, values, column):
     """
-    Function to append revenue and expenses sum to the 
+    Function to append revenue and expenses sum to the
     profit worksheet.
     """
     sum_worksheet_data = SHEET.worksheet(worksheet)
@@ -180,9 +181,8 @@ def calculate_profit(column2_index, column3_index, column4):
 
 def sum_columns_profit(worksheet, column_range, total_cell):
     """
-    Function to sum values of profit worksheet columns, 
-    to show the total revenu, expenses and profit by month
-    and year.
+    Function to sum values of profit worksheet columns,
+    to show the total revenu, expenses and profit by year.
     """
     profit_worksheet = SHEET.worksheet(worksheet)
     values = profit_worksheet.get(column_range)
@@ -196,19 +196,22 @@ def print_profit_data():
     """
     print(Back.BLACK + '\033[1mYour Data is ready to be analysed.\033[0m\n')
     worksheet = SHEET.worksheet('profit')
-    data = worksheet.get_all_values()    
+    data = worksheet.get_all_values()
     headers = data[0]
     table_data = data[1:]
     column_colors = [Fore.RESET, Fore.MAGENTA, Fore.GREEN, Fore.RED, Fore.BLUE]
-    styled_headers = [f"{column_colors[i + 1]}{header}{Style.RESET_ALL}" for i, header in enumerate(headers)]
-    styled_table_data = [[f"{column_colors[j + 1]}{cell}{Style.RESET_ALL}" for j, cell in enumerate(row)] for row in table_data]    
-    table = [styled_headers] + styled_table_data   
-    print(tabulate(table, headers='firstrow', tablefmt='grid'))   
+    styled_headers = [
+        f"{column_colors[i + 1]}{header}{Style.RESET_ALL}" for i, header in
+        enumerate(headers)]
+    styled_table_data = [[f"{column_colors[j + 1]}{cell}{Style.RESET_ALL}" for
+                          j, cell in enumerate(row)] for row in table_data]
+    table = [styled_headers] + styled_table_data
+    print(tabulate(table, headers='firstrow', tablefmt='grid'))
     print(Back.BLACK + Fore.MAGENTA + '\033[1mThank you for using Farmer \
-Market Automation!\033[0m\n') 
+Market Automation!\033[0m\n')
     print(Back.BLACK + Fore.CYAN + '\033[1mProgram Automation created by \
 Meiry Fernanda Diniz for the PP3 of Full Stack Software Development course at \
-Code Institute.\033[0m\n')   
+Code Institute.\033[0m\n')
 
 
 def main():
@@ -222,15 +225,14 @@ def main():
     expense_input = data[3]
     add_worksheet_data((month_input_revenue, revenue_input), 'revenue')
     add_worksheet_data((month_input_expense, expense_input), 'expenses')
-
     revenue_worksheet = "revenue"
     revenue_sums = worksheet_sum(revenue_worksheet)
     append_worksheet_data("profit", revenue_sums, 2)
     expenses_worksheet = "expenses"
     expenses_sums = worksheet_sum(expenses_worksheet)
     append_worksheet_data("profit", expenses_sums, 3)
-    calculate_profit(2, 3, 4)    
-    sum_columns_profit('profit', 'B2:B13', 'B14') 
+    calculate_profit(2, 3, 4)
+    sum_columns_profit('profit', 'B2:B13', 'B14')
     sum_columns_profit('profit', 'C2:C13', 'C14')
     sum_columns_profit('profit', 'D2:D13', 'D14')
     print_profit_data()
